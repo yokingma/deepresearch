@@ -1,0 +1,53 @@
+{
+  "name": "deepsearcher",
+  "version": "0.1.1",
+  "description": "DeepResearch Agent with LangGraph, use any llm and web search to build your own deep research agent",
+  "packageManager": "yarn@3.5.1",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/node": "^20.0.0",
+    "eslint": "latest",
+    "globals": "^16.2.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "latest"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.61",
+    "@langchain/langgraph": "^0.3.5",
+    "@langchain/openai": "^0.5.16",
+    "zod": "^3.25.67"
+  },
+  "author": "zac_ma <yoking@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yokingma/deepresearch"
+  },
+  "keywords": [
+    "langgraph",
+    "research",
+    "deepresearch",
+    "agent",
+    "deep research",
+    "ai agent",
+    "llm",
+    "web search",
+    "RAG"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
