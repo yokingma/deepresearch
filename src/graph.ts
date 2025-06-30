@@ -36,8 +36,7 @@ export class DeepResearch {
   private readonly searcher: SearcherFunction;
 
   /**
-   * @param config - The configuration for the Runnable, including LLM provider settings
-   * @param searchFunction - The function to use for searching
+   * @param searcher - The function to use for searching
    * @param options - The options for the Runnable, including LLM provider settings
    */
   constructor({
@@ -94,9 +93,9 @@ export class DeepResearch {
 
   /**
    * LangGraph node that generates a search queries based on the User's question.
-   * Create an optimized search query for web research based on the User's question.
-   * @param state Current graph state containing the User's question
-   * @param config Configuration for the Runnable, including LLM provider settings
+   * Create an optimized search query for research based on the User's question.
+   * @param state - Overall graph state
+   * @param config - Configuration for the Runnable
    */
   private async generateQuery(
     state: typeof OverallAnnotation.State,
@@ -148,7 +147,7 @@ export class DeepResearch {
   /**
    * LangGraph routing function that sends search queries to research nodes.
    * This is used to spawn n number of research nodes, one for each search query.
-   * @param state Current graph state containing the search queries
+   * @param state - Overall graph state
    */
   private async continueToSearch(state: typeof OverallAnnotation.State) {
     const queryList = state.generatedQueries || [];
@@ -165,8 +164,8 @@ export class DeepResearch {
 
   /**
    * LangGraph node that performs research based on the search query.
-   * @param state Current graph state containing the search query
-   * @param config Configuration for the Runnable, including LLM provider settings
+   * @param state - Research graph state
+   * @param config - Configuration for the Runnable
    */
   private async research(
     state: typeof ResearchState.State,
@@ -319,8 +318,8 @@ export class DeepResearch {
 
   /**
    * LangGraph node that finalizes the answer based on the provided summaries.
-   * @param state Current graph state containing the summaries
-   * @param config Configuration for the Runnable, including LLM provider settings
+   * @param state - Overall graph state
+   * @param config - Configuration for the Runnable
    */
   private async finalizeAnswer(
     state: typeof OverallAnnotation.State,
