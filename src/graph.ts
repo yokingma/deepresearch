@@ -31,6 +31,12 @@ export enum NodeEnum {
   FinalizeAnswer = 'finalize_answer',
 }
 
+export enum EventStreamEnum {
+  ChatModelStart = 'on_chat_model_start',
+  ChatModelStream = 'on_chat_model_stream',
+  ChatModelEnd = 'on_chat_model_end',
+}
+
 export class DeepResearch {
   private readonly options?: ClientOptions;
   private readonly searcher: SearcherFunction;
@@ -110,6 +116,8 @@ export class DeepResearch {
       configuration: this.options,
       maxRetries: 2,
       apiKey: this.options?.apiKey,
+    }).withConfig({
+      tags: [NodeEnum.GenerateQuery],
     });
 
     const topic = getResearchTopic(state.messages);
@@ -191,6 +199,8 @@ export class DeepResearch {
       maxRetries: 2,
       configuration: this.options,
       apiKey: this.options?.apiKey,
+    }).withConfig({
+      tags: [NodeEnum.Research],
     });
 
     const prompt = ChatPromptTemplate.fromTemplate(searcherInstructions);
@@ -241,6 +251,8 @@ export class DeepResearch {
       maxRetries: 2,
       configuration: this.options,
       apiKey: this.options?.apiKey,
+    }).withConfig({
+      tags: [NodeEnum.Reflection],
     });
 
     const prompt = ChatPromptTemplate.fromTemplate(reflectionInstructions);
@@ -350,6 +362,8 @@ export class DeepResearch {
       maxRetries: 2,
       configuration: this.options,
       apiKey: this.options?.apiKey,
+    }).withConfig({
+      tags: [NodeEnum.FinalizeAnswer],
     });
 
     const prompt = ChatPromptTemplate.fromTemplate(answerInstructions);

@@ -73,6 +73,59 @@ for await (const chunk of chunks) {
 }
 ```
 
+## How to stream from the target node
+
+```ts
+// use the streamEvents() method. 
+const eventStream = agent.streamEvents(
+  {
+    messages: [{
+      role: 'user',
+      content: 'How to use LangGraph to build intelligent agents?'
+    }],
+  },
+  {
+    version: 'v2',
+    configurable: {
+      maxResearchLoops: 2,
+      numberOfInitialQueries: 2,
+      queryGeneratorModel: 'Qwen/Qwen3-32B',
+      reflectionModel: 'Qwen/Qwen3-32B',
+      answerModel: 'Qwen/Qwen3-32B',
+    },
+  }
+);
+
+for await (const { event, tags, data } of eventStream) {
+  // Stream outputs from the 'FinalizeAnswer' node
+  if (
+    event === EventStreamEnum.ChatModelStream &&
+    tags?.includes(NodeEnum.FinalizeAnswer)
+  ) {
+    console.log(data.chunk.content);
+  }
+}
+```
+
+Below are the definitions of nodes and commonly used event names:
+
+```ts
+export enum NodeEnum {
+  GenerateQuery = 'generate_query',
+  Research = 'research',
+  Reflection = 'reflection',
+  FinalizeAnswer = 'finalize_answer',
+}
+
+export enum EventStreamEnum {
+  ChatModelStart = 'on_chat_model_start',
+  ChatModelStream = 'on_chat_model_stream',
+  ChatModelEnd = 'on_chat_model_end',
+}
+```
+
+For detailed usage documentation, please refer to: [streaming-from-final-node](https://langchain-ai.github.io/langgraphjs/how-tos/streaming-from-final-node/)
+
 ## How the Agent Works
 
 ![agent](./agent.png)
